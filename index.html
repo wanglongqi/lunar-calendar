@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万年历 - 静态版</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="main-title">万年历</h1>
+            <h1 id="print-title" class="print-only"></h1>
+            <p class="subtitle">Static 500-Year Lunar Calendar (1800-2300)</p>
+        </header>
+
+        <div class="year-nav">
+            <div class="year-controls">
+                <button class="year-btn" data-delta="-100">-100</button>
+                <button class="year-btn" data-delta="-10">-10</button>
+                <button class="year-btn" data-delta="-1">-1</button>
+                <input type="number" id="year-input" min="1800" max="2300">
+                <button class="year-btn" data-delta="1">+1</button>
+                <button class="year-btn" data-delta="10">+10</button>
+                <button class="year-btn" data-delta="100">+100</button>
+            </div>
+            <div class="ganzhi-year">
+                <span id="ganzhi-display"></span> 年
+            </div>
+        </div>
+
+        <div id="eclipses-banner" class="eclipses-banner"></div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+        <div id="loading" class="loading">加载中...</div>
+    </div>
+
+    <div id="day-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="calendar_data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

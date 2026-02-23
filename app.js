@@ -117,11 +117,13 @@ async function loadYear(year) {
 }
 
 function displayYear(data) {
-    document.title = `${data.year}年 (${data.ganzhi}) 万年历`;
+    document.title = `${data.year}年 (${data.ganzhi}) NASA DE441 万年历`;
     document.getElementById('ganzhi-display').textContent = data.ganzhi;
+    document.getElementById('dynamic-subtitle').textContent = `NASA DE441 高精度天文学万年历 (${MIN_YEAR}-${MAX_YEAR})`;
+    
     document.getElementById('print-title').innerHTML = `
         <div class="print-year">${data.year}</div>
-        <div class="print-subtitle">「 ${data.ganzhi}年 」 万年历</div>
+        <div class="print-subtitle">「 ${data.ganzhi}年 」 NASA DE441 万年历</div>
     `;
     
     displayEclipsesBanner(data.eclipses);

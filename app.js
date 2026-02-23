@@ -160,13 +160,13 @@ function buildGregorianYear(year) {
 
 function buildLunarMonthMap(months) {
     const map = {};
-    months.forEach((m, idx) => {
-        const startKey = Math.floor(m.new_moon_jd + 0.5);
-        const endKey = startKey + m.days - 1;
-        for (let jd = startKey; jd <= endKey; jd++) {
-            map[jd] = {
+    months.forEach((m) => {
+        // new_moon_jd is now a pre-computed Beijing-time integer JD (no rounding needed)
+        const startKey = m.new_moon_jd;
+        for (let i = 0; i < m.days; i++) {
+            map[startKey + i] = {
                 lunarMonth: m.month,
-                lunarDay: jd - startKey + 1,
+                lunarDay: i + 1,
                 isLeap: m.is_leap
             };
         }

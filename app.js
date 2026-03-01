@@ -82,7 +82,7 @@ function initControls() {
 async function loadYear(year) {
     const loading = document.getElementById('loading');
     const calendarGrid = document.getElementById('calendar-grid');
-    
+
     loading.classList.add('active');
     calendarGrid.style.opacity = '0.3';
 
@@ -99,9 +99,9 @@ async function loadYear(year) {
                 year: year,
                 ganzhi: d[0],
                 months: d[1].map(m => ({
-                    year: m[0], month: m[1], is_leap: m[2] === 1, new_moon_jd: m[3], days: m[4]
+                    year: m[0], month: m[1], is_leap: m[2] === 1, start_jd: m[3], days: m[4]
                 })),
-                solar_terms: d[2].map(t => ({ name: t[0], jd: t[1] })),
+                solar_terms: d[2].map(t => ({ name: t[0], start_jd: t[1] })),
                 eclipses: {
                     solar: d[3].s.map(e => ({ date: e[0], time: e[1], type: e[2] })),
                     lunar: d[3].l.map(e => ({ date: e[0], time: e[1], type: e[2] }))
@@ -120,14 +120,14 @@ function displayYear(data) {
     document.title = `${data.year}年 (${data.ganzhi}) NASA DE441 万年历`;
     document.getElementById('ganzhi-display').textContent = data.ganzhi;
     document.getElementById('dynamic-subtitle').textContent = `NASA DE441 高精度天文学万年历 (${MIN_YEAR}-${MAX_YEAR})`;
-    
+
     document.getElementById('print-title').innerHTML = `
         <div class="print-year">${data.year}</div>
         <div class="print-subtitle">「 ${data.ganzhi}年 」 NASA DE441 万年历</div>
     `;
-    
+
     displayEclipsesBanner(data.eclipses);
-    
+
     const grid = document.getElementById('calendar-grid');
     grid.innerHTML = '';
 
@@ -160,13 +160,14 @@ function buildGregorianYear(year) {
 
 function buildLunarMonthMap(months) {
     const map = {};
-    months.forEach((m) => {
-        // new_moon_jd is now a pre-computed Beijing-time integer JD (no rounding needed)
-        const startKey = m.new_moon_jd;
-        for (let i = 0; i < m.days; i++) {
-            map[startKey + i] = {
+    const starts = months.map(m => m.start_jd);
+    months.forEach((m, idx) => {
+        const startKey = starts[idx];
+        const endKey = startKey + m.days - 1;
+        for (let jd = startKey; jd <= endKey; jd++) {
+            map[jd] = {
                 lunarMonth: m.month,
-                lunarDay: i + 1,
+                lunarDay: jd - startKey + 1,
                 isLeap: m.is_leap
             };
         }
@@ -177,7 +178,7 @@ function buildLunarMonthMap(months) {
 function buildSolarTermMap(solarTerms) {
     const map = {};
     solarTerms.forEach(t => {
-        map[Math.floor(t.jd + 0.5)] = t.name;
+        map[t.start_jd] = t.name;
     });
     return map;
 }
@@ -187,6 +188,20 @@ function gregorianToJD(year, month, day) {
     const A = Math.floor(year / 100);
     const B = 2 - A + Math.floor(A / 4);
     return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+}
+
+function jdToJulianCalendar(jd) {
+    const Z = jd;
+    const B = Z + 1524;
+    const C = Math.floor((B - 122.1) / 365.25);
+    const D = Math.floor(365.25 * C);
+    const E = Math.floor((B - D) / 30.6001);
+
+    const day = B - D - Math.floor(30.6001 * E);
+    const month = E < 14 ? E - 1 : E - 13;
+    const year = month > 2 ? C - 4716 : C - 4715;
+
+    return { year, month, day };
 }
 
 function createMonthCard(year, gMonth, days, lunarMonthMap, eclipses, solarTermMap) {
@@ -309,7 +324,7 @@ function showDayModal(dayInfo, lunar, solarEclipse, lunarEclipse, solarTerm) {
     const g = dayInfo.gregorian;
     const gregorianStr = `${g.year}年${g.month}月${g.day}日`;
     let lunarStr = '无数据', ganzhiStr = '-';
-    
+
     if (lunar) {
         lunarStr = `${lunar.isLeap ? '闰' : ''}${LUNAR_MONTH_NAMES[lunar.lunarMonth - 1]}月${LUNAR_DAY_NAMES[lunar.lunarDay - 1]}`;
         const jd = Math.floor(dayInfo.jd + 0.5);
@@ -327,7 +342,15 @@ function showDayModal(dayInfo, lunar, solarEclipse, lunarEclipse, solarTerm) {
     if (solarEclipse) eclipseHtml += `<div class="modal-row"><span class="modal-label">日食</span><span class="modal-value highlight">🌑 ${solarEclipse.type}型 ${solarEclipse.time}</span></div>`;
     if (lunarEclipse) eclipseHtml += `<div class="modal-row"><span class="modal-label">月食</span><span class="modal-value highlight">🌕 ${lunarEclipse.type}型 ${lunarEclipse.time}</span></div>`;
 
+    let julianHtml = '';
+    const jdInt = Math.floor(dayInfo.jd + 0.5);
+    if (jdInt < 2299161) { // Before Oct 15, 1582
+        const julian = jdToJulianCalendar(jdInt);
+        julianHtml = `<div class="modal-row"><span class="modal-label">儒略历</span><span class="modal-value" style="color: rgba(255,255,255,0.6);">${julian.year}年${julian.month}月${julian.day}日</span></div>`;
+    }
+
     body.innerHTML = `<div class="modal-row"><span class="modal-label">公历</span><span class="modal-value">${gregorianStr}</span></div>
+        ${julianHtml}
         <div class="modal-row"><span class="modal-label">农历</span><span class="modal-value highlight">${lunarStr}</span></div>
         <div class="modal-row"><span class="modal-label">干支</span><span class="modal-value">${ganzhiStr}</span></div>
         ${eclipseHtml}`;

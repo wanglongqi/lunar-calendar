@@ -36,16 +36,6 @@
         <div id="loading" class="loading">加载中...</div>
     </div>
 
-    <div
-        style="text-align: center; margin: 30px 0 20px 0; font-size: 13px; color: #666; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6; background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
-        <p><strong>引擎一致性保障:</strong> 本引擎经过对 1901–2100 年跨度的遍历对比测试，与 macOS (ICU/CLDR) 系统原生农历算法保持 <strong>99%
-                完美吻合</strong>。</p>
-        <p><strong>关于极其罕见差异的物理说明 ($\Delta T$):</strong> 仅有不足 1% 的分歧出入在极其罕见的置闰边缘计算（如 1984 与 2052 年）。这是因为 macOS (ICU)
-            内置了部分早年历史出版物的粗糙静态查表（例如 1984 年），且在未来推测中采用较简化的多项式。而本引擎全程坚守纯天体物理推演，基于 NASA JPL DE441 并采用 IERS 最权威的
-            <strong>$\Delta T$ (地球自转速率变慢参数)</strong>：如测定 1984 年的 $\Delta T \approx 54.28$ 秒，预推 2052 年 $\Delta T \approx
-            72.08$ 秒，由此精准推导出符合 GB/T 33661-2017 最严密数学逻辑的月份序列。</p>
-    </div>
-
     <div id="day-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>

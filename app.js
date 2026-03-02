@@ -94,18 +94,53 @@ async function loadYear(year) {
     setTimeout(() => {
         const d = CALENDAR_DATA[year];
         if (d) {
+            const baseJd = Math.floor(gregorianToJD(year, 1, 1) + 0.5);
+
+            // Rehydrate months
+            let currentJd = baseJd + d[0][0];
+            const months = [];
+            for (let i = 1; i < d[0].length; i++) {
+                const v = d[0][i];
+                const days = (v & 1) + 29;
+                months.push({
+                    month: v >> 2,
+                    is_leap: ((v >> 1) & 1) === 1,
+                    start_jd: currentJd,
+                    days: days
+                });
+                currentJd += days;
+            }
+
+            // Rehydrate solar terms
+            const SOLAR_TERMS_LIST = ['小寒', '大寒', '立春', '雨水', '惊蛰', '春分', '清明', '谷雨', '立夏', '小满', '芒种', '夏至', '小暑', '大暑', '立秋', '处暑', '白露', '秋分', '寒露', '霜降', '立冬', '小雪', '大雪', '冬至'];
+            const solar_terms = d[1].map((offset, idx) => ({
+                name: SOLAR_TERMS_LIST[idx] || '未知',
+                start_jd: baseJd + offset
+            }));
+
+            // Rehydrate eclipses
+            const eclipses = { solar: [], lunar: [] };
+            if (d.length > 2) {
+                const parseE = (arr) => arr.map(e => {
+                    const e_jd = baseJd + e[0];
+                    const julian = jdToJulianCalendar(e_jd);
+                    return {
+                        date: `${julian.year}-${String(julian.month).padStart(2, '0')}-${String(julian.day).padStart(2, '0')}`,
+                        time: e[1],
+                        type: e[2]
+                    };
+                });
+                eclipses.solar = parseE(d[2][0] || []);
+                eclipses.lunar = parseE(d[2][1] || []);
+            }
+
             // Rehydrate compact array format to rendering format
             yearData = {
                 year: year,
-                ganzhi: d[0],
-                months: d[1].map(m => ({
-                    year: m[0], month: m[1], is_leap: m[2] === 1, start_jd: m[3], days: m[4]
-                })),
-                solar_terms: d[2].map(t => ({ name: t[0], start_jd: t[1] })),
-                eclipses: {
-                    solar: d[3].s.map(e => ({ date: e[0], time: e[1], type: e[2] })),
-                    lunar: d[3].l.map(e => ({ date: e[0], time: e[1], type: e[2] }))
-                }
+                ganzhi: getGanzhi(year - 4),
+                months: months,
+                solar_terms: solar_terms,
+                eclipses: eclipses
             };
             displayYear(yearData);
         } else {

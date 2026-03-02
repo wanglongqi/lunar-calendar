@@ -1,3 +1,9 @@
+---
+layout: default
+title: "《历法科学》"
+nav_order: 1
+has_children: true
+---
 # 《历法科学：全球历法的数学与天文探索》
 
 ##内容简介

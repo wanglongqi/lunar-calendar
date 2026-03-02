@@ -1,9 +1,9 @@
-# Jekyll 配置 - 地图投影图书
+# Jekyll 配置 - 历法科学图书
 
 # 站点信息
-title: "The Science Behind Calendar"
-subtitle: "From Ancient Concepts to Modern Calendar"
-description: A comprehensive guide to map projections for GIS professionals, covering history, mathematical theory, and modern GIS implementation with GDAL and PROJ.
+title: "历法科学"
+subtitle: "全球历法的数学与天文探索"
+description: 本书从数学和科学角度全面介绍世界各地的历法系统，涵盖时间测量基础、阳历体系、阴历与阴阳合历、复杂混合系统、数学分析和先进数学理论、地外历法七大主题。
 author: "LLM"
 lang: zh-CN
 timezone: Asia/Shanghai

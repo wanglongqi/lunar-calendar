@@ -34,6 +34,17 @@
         <div id="eclipses-banner" class="eclipses-banner"></div>
         <div id="calendar-grid" class="calendar-grid"></div>
         <div id="loading" class="loading">加载中...</div>
+
+        <footer class="subtitle"
+            style="margin-top: 40px; text-align: center; border-top: 1px solid #ddd; padding-top: 20px; padding-bottom: 20px;">
+            <p style="margin-top: 10px;"><a href="science_of_calendar/" target="_blank"
+                    style="text-decoration: none; color: inherit; font-weight: bold;">📚 阅读本书《历法科学：全球历法的数学与天文探索》</a></p>
+            <p style="margin-top: 10px; font-size: 14px;">
+                <label style="cursor: pointer;">
+                    <input type="checkbox" id="mode-toggle"> 万年探索模式 (加载 10k.js 超大数据集)
+                </label>
+            </p>
+        </footer>
     </div>
 
     <div id="day-modal" class="modal">
@@ -43,8 +54,31 @@
         </div>
     </div>
 
-    <script src="calendar_data.js"></script>
+    <script>
+        (function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataFile = urlParams.get('mode') === '10k' ? 'calendar_data_10k.js' : 'calendar_data.js';
+            document.write('<script src="' + dataFile + '"><\\/script>');
+        })();
+    </script>
     <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modeToggle = document.getElementById('mode-toggle');
+            if (modeToggle) {
+                modeToggle.checked = new URLSearchParams(window.location.search).get('mode') === '10k';
+                modeToggle.addEventListener('change', (e) => {
+                    const url = new URL(window.location);
+                    if (e.target.checked) {
+                        url.searchParams.set('mode', '10k');
+                    } else {
+                        url.searchParams.delete('mode');
+                    }
+                    window.location.href = url.href;
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

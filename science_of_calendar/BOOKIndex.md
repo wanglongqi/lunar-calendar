@@ -4,7 +4,9 @@ title: "《历法科学：全球历法的数学与天文探索》"
 nav_order: 99
 parent: "《历法科学》"
 ---
+
 # 《历法科学：全球历法的数学与天文探索》
+
 ## 索引
 
 ## A
@@ -24,6 +26,7 @@ parent: "《历法科学》"
 - 不变日 (Intercalary days)：玛雅哈布历中的闰日
 
 ## C
+
 - 查科峡谷 (Chaco Canyon)：北美原住民天文台
 - 长纪年历 (Long Count)：玛雅长期时间记录系统
 - 春分 (Equinox)：格里高利历闰年规则的天文基础
@@ -257,15 +260,15 @@ parent: "《历法科学》"
 
 ## 算法和公式索引
 
-- 日出日落时角公式：$\cos h_0 = -\tan \phi \tan \delta$
-- 正午太阳高度角：$h = 90° - \phi + \delta$
- Shannon熵公式：$H(X) = -\sum p(x) \log_2 p(x)$
-- 信道容量：$C = \max [H(Y) - H(Y|X)]$
-- 旋转器：$R = e^{-\frac{\theta}{2} B}$
-- 维度公式：$d = R \cdot \arccos(\sin \phi_1 \sin \phi_2 + \cos \phi_1 \cos \phi_2 \cos(\lambda_2 - \lambda_1))$
-- 年误差公式：$\Delta T(y) = y \times 0.000809598$（儒略历）
-- 施瓦西原时公式：$d\tau^2 = (1 - \frac{r_s}{r}) dt^2 - ...$
-- 火星索尔转换公式：$MSD = (JD - 2405522.0) / 1.02749$
+- 日出日落时角公式： $\cos h_0 = -\tan \phi \tan \delta$
+- 正午太阳高度角： $h = 90° - \phi + \delta$
+ Shannon熵公式： $H(X) = -\sum p(x) \log_2 p(x)$
+- 信道容量： $C = \max [H(Y) - H(Y\vert X)]$
+- 旋转器： $R = e^{-\frac{\theta}{2} B}$
+- 维度公式： $d = R \cdot \arccos(\sin \phi_1 \sin \phi_2 + \cos \phi_1 \cos \phi_2 \cos(\lambda_2 - \lambda_1))$
+- 年误差公式： $\Delta T(y) = y \times 0.000809598$ （儒略历）
+- 施瓦西原时公式： $d\tau^2 = (1 - \frac{r_s}{r}) dt^2 - ...$
+- 火星索尔转换公式： $MSD = (JD - 2405522.0) / 1.02749$
 
 ## 编程语言和工具索引
 

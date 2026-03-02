@@ -1,0 +1,55 @@
+# Jekyll 配置 - 地图投影图书
+
+# 站点信息
+title: "The Science Behind Calendar"
+subtitle: "From Ancient Concepts to Modern Calendar"
+description: A comprehensive guide to map projections for GIS professionals, covering history, mathematical theory, and modern GIS implementation with GDAL and PROJ.
+author: "LLM"
+lang: zh-CN
+timezone: Asia/Shanghai
+
+# Jekyll 设置
+markdown: kramdown
+highlighter: rouge
+lsi: false
+incremental: false
+
+# 插件配置
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-remote-theme
+
+# 主题配置
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+
+# GitHub Pages baseurl
+baseurl: "/lunar-calendar"
+url: https://wanglongqi.github.io
+
+# 搜索配置
+search:
+    heading_level: 2
+    previews: true
+
+# Just the Docs 配置
+nav_external_links:
+  - title: GitHub Repository
+    url: https://github.com/wanglongqi/lunar-calendar
+    toggle: false
+
+# Mermaid 图表支持
+mermaid:
+  version: "10.9.0"
+  # path: "/assets/js/mermaid.min.js"  # 如果使用本地文件
+
+# 数学公式配置
+mathjax:
+  tex:
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  tags: 'ams'
+
+# 输出目录
+destination: _site

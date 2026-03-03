@@ -53,7 +53,7 @@ This document summarizes all corrections made to chapters 1-6 of the calendar sc
 ### Calculation Fixes
 2. **Line 976-992**: Fixed Julian Day calculation example for 2026-02-24:
    - Corrected formula application and intermediate steps
-   - Fixed final JD value from incorrect 2496241 to correct 2460834
+   - Fixed final JD value to correct 2461096
 
 ### Table Corrections
 3. **Line 414-419**: Fixed Unix timestamp range table:
@@ -67,7 +67,7 @@ This document summarizes all corrections made to chapters 1-6 of the calendar sc
 
 ### Mathematical Error Fixes
 1. **Line 28-36**: Fixed Julian calendar drift calculation:
-   - Corrected the drift formula from `y × 0.000809598` to `(y - 45) × 0.007809598`
+   - Corrected the drift formula from `y × 0.000809598` to `(y + 45) × 0.007809598`
    - Fixed the cumulative error calculation for 1582
    - Added proper integration model for cumulative error
 
